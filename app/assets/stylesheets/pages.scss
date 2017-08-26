@@ -3,9 +3,11 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 $default-margin: 8px;
 $default-foreground: #cccccc;
+$light:#333333;
+$dark: #1e1e1e;
 body {
     margin: 0;
-    background-color: #1e1e1e;
+    background-color: $light;
 }
 
 #full-ide {
@@ -21,7 +23,7 @@ body {
         margin: $default-margin;
         margin-top: 0;
         border: 1px solid #777777;
-        background-color: #333333;
+        background-color: $dark;
         flex-grow: 1;
         &:first-child {
             margin-top: $default-margin;
@@ -35,7 +37,7 @@ body {
 }
 
 #right-side {
-    background-color: #303030;
+    background-color: $dark;
     margin: $default-margin;
     margin-left: 0;
     border: 1px solid #777777;
@@ -44,6 +46,12 @@ body {
     #toolbar {
         border-bottom: 1px solid #777777;
         height: 40px;
+        .fa{
+            line-height: 40px;
+            font-size: 23px;
+            color: #cccccc;
+            margin-left: 10px;
+        }
     }
     #work {
         flex-grow: 1;
