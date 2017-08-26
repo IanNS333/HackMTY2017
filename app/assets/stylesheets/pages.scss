@@ -1,0 +1,75 @@
+// Place all the styles related to the pages controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+$default-margin: 8px;
+$default-foreground: #cccccc;
+body {
+    margin: 0;
+    background-color: #1e1e1e;
+}
+
+#full-ide {
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+}
+
+.side {
+    width: 50%;
+    .content {
+        margin: $default-margin;
+        margin-top: 0;
+        border: 1px solid #777777;
+        background-color: #333333;
+        flex-grow: 1;
+        &:first-child {
+            margin-top: $default-margin;
+        }
+    }
+}
+
+#left-side {
+    display: flex;
+    flex-direction: column;
+}
+
+#right-side {
+    background-color: #303030;
+    margin: $default-margin;
+    margin-left: 0;
+    border: 1px solid #777777;
+    display: flex;
+    flex-direction: column;
+    #toolbar {
+        border-bottom: 1px solid #777777;
+        height: 40px;
+    }
+    #work {
+        flex-grow: 1;
+    }
+}
+
+#viz {
+    display: flex;
+    flex-direction: column;
+    #video {
+        flex-grow: 1;
+    }
+    #video-tools {
+        height: 35px;
+        border-top: 1px solid #777777;
+        padding: 5px;
+        .fa {
+            color: $default-foreground;
+            font-size: 20px;
+            line-height: 25px;
+            margin-left: 10px;
+            &:hover {
+                color: lighten($default-foreground, 15%);
+            }
+        }
+    }
+}
+
+#details {}
