@@ -97,18 +97,17 @@ class Player:
         return selectedPairs
 
     
-<<<<<<< HEAD
 def main():
     board = Board(5336)
     board.toString()
     player = Player(5336,10,30,Player.breedMultiPoint,Player.selectionTournamet,Player.mutationRandom,board,[0.2,0.3,0.5,0.4])
     print("\n".join([str(i) for i in player.createGeneration()]))
-=======
-def test():
-    board = Board(5336)
-    a = Arrow([6,2,1,0,2,1,2,0,1,2],board)
-    b = Arrow([4,2,1,0,1,1,2,1,0,1], board)
-    print([len(a.genotype) for a in Player.breedMultiPoint([[a,b],[b,a],[a,a],[b,b],[a,a]],board,{})])
->>>>>>> 6efd201daa2f31a3ad6e7faacc3c943814583e61
+
+
+# def test():
+#     board = Board(5336)
+#     a = Arrow([6,2,1,0,2,1,2,0,1,2],board)
+#     b = Arrow([4,2,1,0,1,1,2,1,0,1], board)
+#     print([len(a.genotype) for a in Player.breedMultiPoint([[a,b],[b,a],[a,a],[b,b],[a,a]],board,{})])
     
-test()
+# test()
