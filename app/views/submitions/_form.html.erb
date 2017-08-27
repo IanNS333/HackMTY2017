@@ -1,0 +1,57 @@
+<%= form_with(model: @submition, url: user_submitions_path(@user)) do |form| %>
+  <% if submition.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(submition.errors.count, "error") %> prohibited this submition from being saved:</h2>
+
+      <ul>
+      <% submition.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :worldSeed %>
+    <%= form.text_field :worldSeed, id: :submition_worldSeed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :playerSeed %>
+    <%= form.text_field :playerSeed, id: :submition_playerSeed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :agents %>
+    <%= form.text_field :agents, id: :submition_agents %>
+  </div>
+
+  <div class="field">
+    <%= form.label :genotypeLength %>
+    <%= form.text_field :genotypeLength, id: :submition_genotypeLength %>
+  </div>
+
+  <div class="sub_section">
+    <%= form.label :breeding %>
+    <%= form.text_field :breeding, id: :submition_breeding %>
+    <%= form.label :selection %>
+    <%= form.text_field :selection, id: :submition_selection %>
+    <%= form.label :mutationsPerGenotype %>
+    <%= form.text_field :mutationsPerGenotype, id: :submition_mutationsPerGenotype %>
+    <%= form.label :distance %>
+    <%= form.text_field :distance, id: :submition_distance %>
+    <%= form.label :pathLength %>
+    <%= form.text_field :pathLength, id: :submition_pathLength %>
+    <%= form.label :flatAngle %>
+    <%= form.text_field :flatAngle, id: :submition_flatAngle %>
+  </div>
+
+  <div class="field">
+    <%= form.label :player2 %>
+    <%= form.text_field :player2, id: :submition_player2 %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

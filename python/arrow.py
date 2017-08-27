@@ -12,14 +12,6 @@ class Arrow:
         self.position = board.start
         self.win = False
 
-    #int (number of steps)
-    def getTimeAlive(self):
-        return self.timeAlive
-
-    #string
-    def getGenotype(self):
-        return self.genotype
-
     #float (not normalized)
     def fitness(self, weights):
         res = 0
@@ -77,15 +69,3 @@ class Arrow:
     def euclideanFit(self,flag):
         return 1/math.sqrt((flag[0] - self.position[0])**2 + (flag[1] - self.position[1])**2)
 
-def main():
-    board = Board(13214)
-    board.toString()
-    arrowA = Arrow(Arrow.randomGenotype(30), board)
-    print(arrowA.genotype)
-    arrowB = Arrow(Arrow.randomGenotype(30), board)
-    print(arrowB.genotype)
-    arrowA.move()
-    print(arrowA.timeAlive)
-    arrowB.move()
-    print(arrowB.timeAlive)
-#main()

@@ -5,13 +5,20 @@ class Game:
     def __init__(self, args):
         self.board = Board(args["worldSeed"])
 
+        #TODO MAKE BETTER FUNCTIONS
+        functions = {
+            "tournament" : Player.selectionTournament,
+            "random" : Player.selectionTournament,
+        }
+
         self.players = [
             Player(
-                args["playerSeed"], args["agents"],
+                args["playerSeed"], 
+                args["agents"],
                 args["genotypeLength"],
-                args["player1"]["breeding"],
-                args["player1"]["selection"],
-                args["player1"]["mutations"],
+                Player.breedMultiPoint,
+                functions[args["player1"]["selection"]],
+                Player.mutationRandom,
                 self.board,
                 args["player1"]["fitness"]
             ), 
@@ -19,20 +26,28 @@ class Game:
                 args["playerSeed"],
                 args["agents"],
                 args["genotypeLength"],
-                args["player2"]["breeding"],
-                args["player2"]["selection"],
-                args["player2"]["mutations"],
+                Player.breedMultiPoint,
+                functions[args["player2"]["selection"]],
+                Player.mutationRandom,
                 self.board,
                 args["player2"]["fitness"]
             )
         ]
 
+        self.players[0].setBreedArgs({"points" : args["player1"]["breeding"]})
+        self.players[1].setBreedArgs({"points" : args["player2"]["breeding"]})
+
+        self.players[0].setMutationArgs({"times" : args["player1"]["mutations"]})
+        self.players[1].setMutationArgs({"times" : args["player2"]["mutations"]})
+
+        #TODO Selection args
+        
         self.simulation = [ [], [] ]
 
 
     def run(self):
         winner = False
-        for i in range(50):
+        for i in range(3):
             for j in range(2):
                 winner = self.players[j].win
                 self.simulation[j].append(self.players[j].createGeneration())

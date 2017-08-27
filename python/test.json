@@ -1,14 +1,2 @@
-{
-    "worldSeed":1,
-    "playerSeed":2,
-    "breeding": 1,
-    "selection": "tournament",
-    "mutations": 0,
-    "fitness" : {
-        "distance": 0,
-        "pathLength" : 0,
-        "flagAngle": 0
-    },
-    "agents": 10,
-    "genotypeLength": 10
-}
+{ "worldSeed": 276315, "playerSeed": 231459, "agents": 10, "genotypeLength": 150, "player1": { "breeding": 1, "selection": "tournament", "mutations": 19, "fitness" : { "distance": 0.33, "pathLength": -0.33, "flatAngle": 0.0 }
+}, "player2": { "breeding": 21, "selection": "random", "mutations": 10, "fitness" : { "distance": 0.5, "pathLength": 0.6, "flatAngle": -0.5 } } }

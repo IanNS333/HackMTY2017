@@ -4,12 +4,15 @@ from game import Game
 def main():
     #in
     args = json.load( sys.stdin )
+    
+    # print(json.dumps(args))
 
-    #run
+    #run    
     game = Game(args)
     game.run()
     
     #out
+
     print(json.dumps(
         {
             "board": {

@@ -25,3 +25,7 @@
 \.vscode/
 
 \.DS_Store
+
+*.gerrygoo
+
+python/__pycache__/
