@@ -15,5 +15,6 @@
 //= require rails-ujs
 //= require bootstrap-sprockets
 //= require bootstrap-slider
+//= require phaser.min
 //= require_tree .
 //= require turbolinks

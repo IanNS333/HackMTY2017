@@ -1,14 +1,14 @@
 var game = new Phaser.Game(800, 600, Phaser.AUTO, 'phaser-example', { preload: preload, create: create, update: update, render: render });
 
 function preload(){
-  game.load.image('user1','where_the_fuck.png');//user1
-  game.load.image('user2','where_the_fuck.png');//user2
-  game.load.image('flag','where_the_fuck.png');//
-  game.load.image('obstacle','where_the_fuck.png');//
+  game.load.image('user1','../../assets/blueArrow.png');//user1
+  game.load.image('user2','../../assets/redArrow.png');//user2
+  game.load.image('flag','../../assets/checkered.png');//
+  game.load.image('obstacle','../../assets/block.png');//
 }
 
 //JSON shit
-var j='where_the_fuck'
+var j='{ "board": {       "obstacles": [           [3,3],           [20,20]       ],       "start" : [50,50],       "end" : [0,0],   },   "Player1" : [       [           [0,0,0,1,0,2,1,2,2],           [0,1,2,1,2,0,1,2,3]       ],       [           [0,0,0,1,0,2,1,2,2],           [0,1,2,1,2,0,1,2,3]       ]   ],   "Player2" :[                    #player       [                                #generation           [0,0,0,1,0,2,1,2,2],            #genome           [0,1,2,1,2,0,1,2,3]       ],       [           [0,0,0,1,0,2,1,2,2],           [0,1,2,1,2,0,1,2,3]       ]   ] }'
 var json=JSON.parse(j);
 
 var spriteA= new Array();//Sprites
@@ -125,7 +125,7 @@ function update(){ //PHYSICS SHIT calculate
     currentgen++;
     restartThings();
   }
-  for(var i=0;i<genomeA[0][0].length){
+  for(var i=0;i<genomeA[0][0].length;i++){
     if(genomeA[currentgen][i][currentStringpos]==0){
       counterA[i]--;
       if(counterA[i]<0){
