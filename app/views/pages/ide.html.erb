@@ -30,51 +30,47 @@
             </div>
         </div>
         <div id="work">
+            <div class="form-group">
+                <%= form.label :agents %>
+                <%= slider @submition[:agents], 1, 50, 1, :submition_agents, 'submition[agents]'%>
+                <%= form.label :genotypeLength, style: 'margin-left: 20px;' %>
+                <%= slider @submition[:genotypeLength], 80, 200, 1, :submition_genotypeLength, 'submition[genotypeLength]'%>
+            </div>
 
+            <div class="sub_section" style="border-top: 1px solid #777777">
                 <div class="form-group">
-                    <%= form.label :agents %>
-                    <%= slider @submition[:agents], 1, 50, 1, :submition_agents, 'submition[agents]'%>
-                    <%= form.label :genotypeLength, style: 'margin-left: 20px;' %>
-                    <%= slider @submition[:genotypeLength], 80, 200, 1, :submition_genotypeLength, 'submition[genotypeLength]'%>
+                    <%= form.label :breeding %>
+                    <%= slider @player1[:breeding], 1, 50, 1, :submition_breeding, 'submition[breeding]'%>
                 </div>
+                <div class="form-group">
+                    <%= form.label :mutations_Per_Genotype %>
+                    <%= slider @player1[:mutationsPerGenotype], 1, 50, 1, :submition_mutationsPerGenotype, 'submition[mutationsPerGenotype]'%>
+                </div>
+                <div class="form-group">
+                    <%= form.label :selection %>
+                    <%= select_tag('submition[selection]', options_for_select(@options), id: :submition_selection, class: 'form-control', style: 'width: 50%;') %>
+                </div>
+                <div class="form-group">
+                    <%= form.label :distance %>
+                    <%= slider @player1[:distance], -1, 1, 0.05, :submition_distance, 'submition[distance]'%>
+                </div>
+                <div class="form-group">
+                    <%= form.label :path_Length %>
+                    <%= slider @player1[:pathLength], -1, 1, 0.05, :submition_pathLength, 'submition[pathLength]'%>
+                </div>
+                <div class="form-group">
+                    <%= form.label :flat_Angle %>
+                    <%= slider @player1[:flatAngle], -1, 1, 0.05, :submition_flatAngle, 'submition[flatAngle]'%>
+                </div>
+            </div>
 
-                <div class="sub_section" style="border-top: 1px solid #777777">
-                    <div class="form-group">
-                        <%= form.label :breeding %>
-                        <%= slider @submition[:breeding], 1, 50, 1, :submition_breeding, 'submition[breeding]'%>
-                    </div>
-                    <div class="form-group">
-                        <%= form.label :selection %>
-                        <%= slider @submition[:selection], 1, 50, 1, :submition_selection, 'submition[selection]'%>
-                    </div>
-                    <div class="form-group">
-                        <%= form.label :mutations_Per_Genotype %>
-                        <%= select_tag('submition[mutationsPerGenotype]', options_for_select([["tournament","tournament"],["random", "random"]]), id: :submition_mutationsPerGenotype, class: 'form-control', style: 'width: 50%;') %>
-                    </div>
-                    <div class="form-group">
-                        <%= form.label :distance %>
-                        <%= slider @submition[:distance], -1, 1, 0.05, :submition_distance, 'submition[distance]'%>
-                    </div>
-                    <div class="form-group">
-                        <%= form.label :path_Length %>
-                        <%= slider @submition[:pathLength], -1, 1, 0.05, :submition_pathLength, 'submition[pathLength]'%>
-                    </div>
-                    <div class="form-group">
-                        <%= form.label :flat_Angle %>
-                        <%= slider @submition[:flatAngle], -1, 1, 0.05, :submition_flatAngle, 'submition[flatAngle]'%>
-                    </div>
-                </div>
-
-                <div class="form-group" style="border-top: 1px solid #777777; padding-top: 20px">
-                    <%= form.label :player2 %>
-                    <%= select_tag('submition[player2]', options_for_select(@other_players), id: :submition_player2, class: 'form-control', style: 'width: 50%;') %>
-                </div>
-
-                <div class="actions" style="display:none">
-                    <%= form.submit %>
-                </div>
+            <div class="form-group" style="border-top: 1px solid #777777; padding-top: 20px">
+                <%= form.label :player2 %>
+                <%= select_tag('submition[player2]', options_for_select(@other_players), id: :submition_player2, class: 'form-control', style: 'width: 50%;') %>
+            </div>
 
         </div>
-            <% end %>
+        <% end %>
+        <span id="sim_res" style="display: none"><%= SubmitionsController.simulation_result.to_json %></span>
     </div>
 </div>

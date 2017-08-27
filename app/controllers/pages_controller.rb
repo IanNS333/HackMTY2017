@@ -1,19 +1,36 @@
 class PagesController < ApplicationController
-  before_action :set_submition, only: [:ide]
 
   def ide
+    @user = User.find(params[:user_id])
+    @other_players = User.where('id IN (select user_id from players group by user_id having count(*) > 0)')
+                          .where.not(id: @user[:id])
+                          .map { |u| [u[:name], u[:id]] }
+    @other_players = @other_players.map { |u| [u[0], Player.where(user_id: u[1]).order('created_at DESC').limit(1).pluck(:id)[0]] }
+    if params[:submit_id]
+      @submition = Submition.find(params[:submit_id])
+      @player1 = Player.find(@submition[:player1])
+      @player2 = Player.find(@submition[:player2])
+      tmp = 0
+      @other_players.each.with_index do |o,i|
+        if o[1] == @player2[:id]
+          tmp = i
+        end
+      end
+      tmp = @other_players.delete_at(tmp)
+      @other_players.insert(0, tmp)
+    else
+      @submition = Submition.get_default(params[:user_id])
+      @player1 = Player.get_default
+      @player2 = @other_players[0][1]
+    end
+    if @player1[:selection] == "tournament"
+      @options = [["tournament","tournament"],["random","random"]]
+    else
+      @options = [["random","random"],["tournament","tournament"]]
+    end
 
   end
 
   private
-
-  def set_submition
-    # @submition = Submition.new
-    @user = User.find(params[:user_id])
-    @submition = Submition.get_default(params[:user_id])
-    @other_players = User.where('id IN (select user_id from players group by user_id having count(*) > 0)')
-                          .where.not(id: @user[:id])
-                          .map { |u| [u[:name], u[:id]] }
-  end
 
 end
