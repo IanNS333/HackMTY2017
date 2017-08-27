@@ -8,7 +8,7 @@ class Game:
         #TODO MAKE BETTER FUNCTIONS
         functions = {
             "tournament" : Player.selectionTournament,
-            "random" : Player.selectionTournament,
+            "random" : Player.selectionRandom,
         }
 
         self.players = [
@@ -50,11 +50,10 @@ class Game:
 
     def run(self):
         winner = False
+        print(self.board.toString())
         for i in range(200):
             for j in range(2):
                 winner = self.players[j].win
                 self.simulation[j].append(self.players[j].createGeneration())
             if winner:
-                print("gano")
-                print(i)
                 break

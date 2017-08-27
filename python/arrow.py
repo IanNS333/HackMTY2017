@@ -12,20 +12,21 @@ class Arrow:
         self.position = board.start
         self.win = False
         self.positions = []
+        self.angleSum = 0
 
     #float (not normalized)
     def fitness(self, weights):
         res = 0
         res += weights[0]*self.euclideanFit(self.board.end)
+        res += weights[1]*self.pathLengthFit()
+        res += weights[2]*self.angleFit()
+        
         return res
 
     def move(self):
         alive = True
-        actual = 5
         while(alive and self.timeAlive < len(self.genotype)):
             self.positions.append(self.position)
-            self.board.board[self.position[0]][self.position[1]] = actual
-            actual += 1
             nextGen = self.genotype[self.timeAlive]
             nextDirection = self.direction + nextGen
             nextPosition = self.moveTo(nextDirection, self.position)
@@ -36,6 +37,8 @@ class Arrow:
             elif (self.board.at(nextPosition) == Tiles.Flag):
                 self.win = True
                 alive = False
+            if(self.direction != nextDirection):
+                self.angleSum += 1
             self.direction = nextDirection
             self.position = nextPosition
             self.timeAlive+=1
@@ -76,4 +79,10 @@ class Arrow:
             self.win = True
             return 2
         return 1/distance
+
+    def pathLengthFit(self):
+        return (self.timeAlive -1)/(len(self.genotype)-1)
+
+    def angleFit(self):
+        return (self.angleSum)/(len(self.genotype))
 

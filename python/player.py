@@ -94,13 +94,22 @@ class Player:
     def selectionTournament(arrows, weights, args):
         sortedArrows = sorted(arrows,key=lambda arrow: arrow.fitness(weights),reverse=True)[:args["amount"] if "amount" in args else 2]
         selectedPairs = []
-        for i in range(len(arrows)//2 + 1):
+        for i in range(len(arrows) ):
             posI = random.randint(0,len(sortedArrows)-1 )
             posJ = random.randint(0,len(sortedArrows)-1 )
             selectedPairs.append([sortedArrows[posI],sortedArrows[posJ]])
 
         selectedPairs[0] = [sortedArrows[0],sortedArrows[0]]
         selectedPairs[1] = [sortedArrows[1],sortedArrows[1]]
+        return selectedPairs
+
+    @staticmethod
+    def selectionRandom(arrows,weights,args):
+        selectedPairs = []
+        for i in range(len(arrows) ):
+            posI = random.randint(0,len(arrows)-1 )
+            posJ = random.randint(0,len(arrows)-1 )
+            selectedPairs.append([arrows[posI],arrows[posJ]])
         return selectedPairs
 
     
