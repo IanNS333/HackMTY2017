@@ -36,7 +36,7 @@ class Arrow:
             self.direction = nextDirection
 
                 
-    def moveTo()
+    def moveTo():
 
     #returns array of 0s, 1s and 2s, first element declares degree which is from 0 to 7
     @staticmethod
@@ -49,3 +49,8 @@ class Arrow:
 
     def euclideanFit(self,flag):
         return 1/math.sqrt((flag[0] - self.position[0])** + (flag[1] - self.position[1])**)
+
+def main():
+    board
+    arrowA = Arrow(Arrow.randomGenotype, board)
+    arrowB = Arrow(Arrow.randomGenotype, board)
