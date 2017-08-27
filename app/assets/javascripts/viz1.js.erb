@@ -14,6 +14,9 @@ window.endCoord;
 window.sumA;
 window.sumB;
 
+window.scaleVertical=18;//window.game.height;
+window.scaleHorizontal=18;//window.game.width;
+
 window.currentGeneration;
 window.currentGenotypeIndex;
 
@@ -21,15 +24,32 @@ window.wait;
 window.waitLimit;
 window.j;
 
+window.a;
+window.o;
+window.f;
+
 function preload(){
-  game.load.image('user1',"<%= asset_path('redArrow.png')%>");//user1
-  game.load.image('user2',"<%= asset_path('blueArrow.png')%>");//user2
-  game.load.image('flag',"<%= asset_path('checkeredFlag.png')%>");//final
-  game.load.image('obst',"<%= asset_path('block.png')%>");//obstacle
+  window.game.load.image('user1',"<%= asset_path('redArrow.png')%>");//user1
+  window.game.load.image('user2',"<%= asset_path('blueArrow.png')%>");//user2
+  window.game.load.image('flag',"<%= asset_path('blueArrow.png')%>");//final
+  window.game.load.image('obst',"<%= asset_path('block.png')%>");//obstacle
 }
 
 function create(){
-  game.physics.startSystem(Phaser.Physics.ARCADE);  //NECESSARY... I THINK...
+  window.game.physics.startSystem(Phaser.Physics.ARCADE);  //NECESSARY... I THINK...
+
+  // window.a=game.add.group();
+  // window.a.enableBody=true;
+  // window.a.physicsBodyType = Phaser.Physics.ARCADE;
+  // window.a.events.onOutOfBounds.add();
+  //
+  // window.o= game.add.group();
+  // window.o.enableBody=true;
+  // window.o.physicsBodyType = Phaser.Physics.ARCADE;
+  //
+  // window.f= game.add.group();
+  // window.f.enableBody=true;
+  // window.f.physicsBodyType = Phaser.Physics.ARCADE;
 
   window.simulation=JSON.parse(JSON.parse(window.j));
   window.currentGenotypeIndex=1;
@@ -38,10 +58,13 @@ function create(){
   window.waitLimit=5;
   window.generationsTotal=window.simulation.player1.length;
   window.agentTotal=window.simulation.player1[0].length;
+  console.log(window.agentTotal);
   window.genotypeLength=window.simulation.player1[0][0].length;
   window.obstacles=window.simulation.board.obstacles;
+  window.obstaclesScaled = window.obstacles;
   window.startCoord=window.simulation.board.start;
   window.endCoord=window.simulation.board.end;
+  console.log(window.genotypeLength);
 
   createSprites();
 }
@@ -53,20 +76,21 @@ function createSprites(){
   window.spritesUser[0] = new Array();
   window.spritesUser[1] = new Array();
   for(var i=0;i<window.agentTotal;i++){
-    window.spritesUser[0][i]=game.add.sprite(window.startCoord[0],window.startCoord[1],'user1');
-    window.spritesUser[1][i]=game.add.sprite(window.startCoord[0],window.startCoord[1],'user2');
+    window.spritesUser[0][i]=window.game.add.sprite(window.startCoord[1],window.startCoord[0],'user1');
+    window.spritesUser[1][i]=window.game.add.sprite(window.startCoord[1],window.startCoord[0],'user2');
     window.sumA[i]=window.simulation.player1[window.currentGeneration][i][0];
     window.sumB[i]=window.simulation.player2[window.currentGeneration][i][0];
   }
-  window.spriteFlag=game.add.sprite(window.endCoord[0],window.endCoord[1],'flag');
+  window.spriteFlag=window.game.add.sprite(window.endCoord[1]*window.scaleHorizontal,window.endCoord[0]*window.scaleVertical,'flag');
   window.spriteObstacle=new Array();
   window.obstacles.forEach(function(coords,key){
-    window.spriteObstacle[key]=game.add.sprite(coords[0],coords[1],'obst');
+    window.spriteObstacle[key]=window.game.add.sprite(coords[1]*window.scaleHorizontal,coords[0]*window.scaleVertical,'obst');
+    window.obstaclesScaled[key]=[coords[1]*window.scaleHorizontal, coords[0]*window.scaleVertical]
   });
 }
 
 function update(){
-  // game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
+  // window.game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
   if(wait<waitLimit){
     wait++;
   }else{
@@ -75,20 +99,43 @@ function update(){
   }
 }
 
+function inside(coords){
+  for(var i  = 0; i < window.obstaclesScaled.length; i++){
+    if( Math.abs(coords[1]-obstaclesScaled[i][1])<18 && Math.abs(coords[0] - obstaclesScaled[i][0])<18){
+      console.log("crashed");
+      return true;
+    }
+    //console.log(obstaclesScaled[i]);
+    //console.log(coords[1]);
+  }
+
+  if(coords[0]<0||coords[1]<0) return true;
+  if(coords[0]>900||coords[1]>430) return true;
+
+  return false;
+}
+
 function updateUtil(){
+
   if(window.currentGenotypeIndex<window.genotypeLength){
     var next;
+    var pos = [0, 0];
+    // for(var j=0;i<)
     for(var i=0;i<window.agentTotal;i++){
       next=calculate(0,i);
-      window.spritesUser[0][i].x+=next[0];
-      window.spritesUser[0][i].y+=next[1];
+      pos = [(window.spritesUser[0][i].x+next[0]), (window.spritesUser[0][i].y+next[1])]
+      window.spritesUser[0][i].x+= inside(pos) ? 0 : next[0];
+      window.spritesUser[0][i].y+= inside(pos) ? 0 : next[1];
       next=calculate(1,i);
-      window.spritesUser[1][i].x+=next[0];
-      window.spritesUser[1][i].y+=next[1];
-      window.currentGenotypeIndex++;
+
+      pos = [(window.spritesUser[1][i].x+next[0]), (window.spritesUser[1][i].y+next[1])]
+      window.spritesUser[1][i].x+= inside(pos) ? 0 : next[0];
+      window.spritesUser[1][i].y+= inside(pos) ? 0 : next[1];
     }
-  }else if(window.currentGenotypeIndex>window.genotypeLength && window.currentgen<window.generationsTotal-1){
+    window.currentGenotypeIndex++;
+  }else if(window.currentGenotypeIndex>=window.genotypeLength && window.currentGeneration<window.generationsTotal-1){
     window.currentGeneration++;
+    console.log(window.currentGenotypeIndex);
     window.currentGenotypeIndex=1;
     //reset sums
     for(var i=0;i<window.agentTotal;i++){
@@ -102,6 +149,8 @@ function updateUtil(){
       window.spritesUser[1][i].x=window.startCoord[0];
       window.spritesUser[1][i].y=window.startCoord[1];
     }
+  }else{
+    console.log('fuck');
   }
 }
 
@@ -141,24 +190,25 @@ function calculate(player, a){
 function bigSwitch(a){
   var toRet=[0,0];
   if(a==0){
-    return toRet=[20,0];
+    toRet=[window.scaleHorizontal,0];
   }else if(a==1){
-    return toRet=[20,-20];
+    toRet=[window.scaleHorizontal,-window.scaleVertical];
   }else if(a==2){
-    return toRet=[0,-20];
+    toRet=[0,-window.scaleVertical];
   }else if(a==3){
-    return toRet=[-20,-20];
+    toRet=[-window.scaleHorizontal,-window.scaleVertical];
   }else if(a==4){
-    return toRet=[-20,0]
+    toRet=[-window.scaleHorizontal,0]
   }else if(a==5){
-    return toRet=[-20,20];
+    toRet=[-window.scaleHorizontal,window.scaleVertical];
   }else if(a==6){
-    return toRet=[0,20]
+    toRet=[0,window.scaleVertical]
   }else if(a==7){
-    return toRet=[20,20];
+    toRet=[window.scaleHorizontal,window.scaleVertical];
   }
+  return toRet;
 }
 
 function render(){
-  game.debug.text('Generation '+(window.currentGeneration+1), 32, 32);
+  window.game.debug.text('Generation '+(window.currentGeneration+1), 32, 32);
 }
