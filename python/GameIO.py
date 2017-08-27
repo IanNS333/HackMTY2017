@@ -1,17 +1,57 @@
 import sys, json
 
 def main():
-    request = json.load( sys.stdin )
-    worldSeed = request["worldSeed"]
-    playerSeed = request["playerSeed"]
-    param1 = request["param1"]
-    param2 = request["param2"]
-    agents = request["agents"]
+    #in
+    args = json.load( sys.stdin )
 
-    print(worldSeed)
+    worldSeed = args["worldSeed"]
+    playerSeed = args["playerSeed"]
+    breeding = args["breeding"]
+    selection = args["selection"]
+    mutations = args["mutations"]
+    fitness = args["fitness"]
+    agents = args["agents"]
+    genotypeLength = args["genotypeLength"]
+
+    #run
+
     
-    for i in ["a","b","c"]:
-        print(param1[i] if i in param1 else -1)
-        print(param2[i] if i in param2 else -1)
+
+
+    #out
+
+    simulation = {
+        "board": {
+            "obstacles": [
+                [3,3],
+                [20,20]
+            ],
+            "start" : [50,50],
+            "end" : [0,0],
+        },
+        "Player1" : [
+            [
+                [0,0,0,1,0,2,1,2,2],
+                [0,1,2,1,2,0,1,2,3]
+            ],
+            [
+                [0,0,0,1,0,2,1,2,2],
+                [0,1,2,1,2,0,1,2,3]
+            ]
+        ],
+        "Player2" :[                    #player
+            [                               #generation
+                [0,0,0,1,0,2,1,2,2],            #genome
+                [0,1,2,1,2,0,1,2,3]
+            ],
+            [
+                [0,0,0,1,0,2,1,2,2],
+                [0,1,2,1,2,0,1,2,3]
+            ]
+        ]
+    }
+
+    print (json.dumps(simulation))
+
 
 main()

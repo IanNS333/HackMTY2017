@@ -1,14 +1,14 @@
 {
-    "worldSeed":"absc",
-    "playerSeed":"bjsh",
-    "param1":{
-        "a": "1",
-        "b": "2"
+    "worldSeed":1,
+    "playerSeed":2,
+    "breeding": 1,
+    "selection": "tournament",
+    "mutations": 0,
+    "fitness" : {
+        "distance": 0,
+        "pathLength" : 0,
+        "flagAngle": 0
     },
-    "param2":{
-        "b": "3",
-        "c": "2"
-    },
-    "agents":"10",
-    "genotypeLength":"1000"
+    "agents": 10,
+    "genotypeLength": 10
 }
