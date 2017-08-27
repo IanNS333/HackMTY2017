@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :users, only: [:index] do
     resources :submitions
     resources :players
-    get 'ide(/:submit_id)', to: 'pages#ide'
+    get 'ide', to: 'pages#ide'
   end
 
 end

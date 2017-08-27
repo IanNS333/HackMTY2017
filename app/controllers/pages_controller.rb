@@ -1,4 +1,9 @@
 class PagesController < ApplicationController
+  cattr_accessor :submit_id
+  cattr_accessor :just_saved
+
+  @@just_saved = false
+  @@submit_id = nil
 
   def ide
     @user = User.find(params[:user_id])
@@ -6,8 +11,18 @@ class PagesController < ApplicationController
                           .where.not(id: @user[:id])
                           .map { |u| [u[:name], u[:id]] }
     @other_players = @other_players.map { |u| [u[0], Player.where(user_id: u[1]).order('created_at DESC').limit(1).pluck(:id)[0]] }
-    if params[:submit_id]
-      @submition = Submition.find(params[:submit_id])
+    if @@just_saved
+      @@just_saved = false
+      tmp = Submition.find(@@submit_id)
+      @submition = Submition.new do |s|
+        s.worldSeed = tmp.worldSeed
+        s.playerSeed = tmp.playerSeed
+        s.agents = tmp.agents
+        s.genotypeLength = tmp.genotypeLength
+        s.player1 = tmp.player1
+        s.player2 = tmp.player2
+        s.user_id = tmp.user_id
+      end
       @player1 = Player.find(@submition[:player1])
       @player2 = Player.find(@submition[:player2])
       tmp = 0

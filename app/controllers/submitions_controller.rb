@@ -45,7 +45,9 @@ class SubmitionsController < ApplicationController
 
     respond_to do |format|
       if @submition.save
-        format.html { redirect_to "/users/#{@player1[:user_id]}/ide/#{@submition[:id]}" }
+        PagesController.submit_id = @submition[:id]
+        PagesController.just_saved = true
+        format.html { redirect_to "/users/#{@player1[:user_id]}/ide" }
         format.json { head :ok }
       else
         format.html { render :new }
