@@ -71,6 +71,8 @@
 
         </div>
         <% end %>
-        <span id="sim_res" style="display: none"><%= SubmitionsController.simulation_result.to_json %></span>
+        <% if SubmitionsController.simulation_result %>
+            <span id="sim_res" style="display: none"><%= SubmitionsController.simulation_result.to_json %></span>
+        <% end %>
     </div>
 </div>

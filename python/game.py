@@ -13,7 +13,7 @@ class Game:
 
         self.players = [
             Player(
-                args["playerSeed"], 
+                args["playerSeed"],
                 args["agents"],
                 args["genotypeLength"],
                 Player.breedMultiPoint,
@@ -21,7 +21,7 @@ class Game:
                 Player.mutationRandom,
                 self.board,
                 args["player1"]["fitness"]
-            ), 
+            ),
             Player(
                 args["playerSeed"],
                 args["agents"],
@@ -44,13 +44,12 @@ class Game:
         self.players[1].setSelectionArgs({"amount" : args["agents"]//2})
 
         #TODO Selection args
-        
+
         self.simulation = [ [], [] ]
 
 
     def run(self):
         winner = False
-        print(self.board.toString())
         for i in range(200):
             for j in range(2):
                 winner = self.players[j].win

@@ -1,27 +1,28 @@
-var window.simulation;
-var window.spritesUser;
-var window.spriteObstacle;
-var window.spriteFlag;
+window.simulation;
+window.spritesUser;
+window.spriteObstacle;
+window.spriteFlag;
 
-var window.generationsTotal;
-var window.agentTotal;
-var window.genotypeLength;
-var window.obstacles;//info
+window.generationsTotal;
+window.agentTotal;
+window.genotypeLength;
+window.obstacles;//info
 
-var window.startCoord;
-var window.endCoord;
+window.startCoord;
+window.endCoord;
 
-var window.sumA;
-var window.sumB;
+window.sumA;
+window.sumB;
 
-var window.currentGeneration;
-var window.currentGenotypeIndex;
+window.currentGeneration;
+window.currentGenotypeIndex;
 
-var window.wait;
-var window.waitLimit;
+window.wait;
+window.waitLimit;
+window.j;
 
-function window.preload(){
-  game.load.image('user1',"<%= asset_path('arrowArrow.png')%>");//user1
+function preload(){
+  game.load.image('user1',"<%= asset_path('redArrow.png')%>");//user1
   game.load.image('user2',"<%= asset_path('blueArrow.png')%>");//user2
   game.load.image('flag',"<%= asset_path('checkeredFlag.png')%>");//final
   game.load.image('obst',"<%= asset_path('block.png')%>");//obstacle
@@ -30,16 +31,15 @@ function window.preload(){
 function create(){
   game.physics.startSystem(Phaser.Physics.ARCADE);  //NECESSARY... I THINK...
 
-  var j=''
-  window.simulation==JSON.parse(j);
+  window.simulation=JSON.parse(JSON.parse(window.j));
   window.currentGenotypeIndex=1;
   window.currentGeneration=0;
   window.wait=0;
   window.waitLimit=5;
-  window.generationsTotal=window.simulation.Player1.length;
-  window.agentTotal=window.simulation.Player1[0].length;
-  window.genotypeLength=window.simulation.Player1[0][0].length;
-  window.obstacles=window.simulation.obstacles;
+  window.generationsTotal=window.simulation.player1.length;
+  window.agentTotal=window.simulation.player1[0].length;
+  window.genotypeLength=window.simulation.player1[0][0].length;
+  window.obstacles=window.simulation.board.obstacles;
   window.startCoord=window.simulation.board.start;
   window.endCoord=window.simulation.board.end;
 
@@ -50,21 +50,23 @@ function createSprites(){
   window.spritesUser=new Array();
   window.sumA=new Array();
   window.sumB=new Array();
+  window.spritesUser[0] = new Array();
+  window.spritesUser[1] = new Array();
   for(var i=0;i<window.agentTotal;i++){
     window.spritesUser[0][i]=game.add.sprite(window.startCoord[0],window.startCoord[1],'user1');
     window.spritesUser[1][i]=game.add.sprite(window.startCoord[0],window.startCoord[1],'user2');
-    window.sumA[i]=window.simulation.Player1[window.currentGeneration][i][0];
-    window.sumB[i]=window.simulation.Player2[window.currentGeneration][i][0];
+    window.sumA[i]=window.simulation.player1[window.currentGeneration][i][0];
+    window.sumB[i]=window.simulation.player2[window.currentGeneration][i][0];
   }
   window.spriteFlag=game.add.sprite(window.endCoord[0],window.endCoord[1],'flag');
   window.spriteObstacle=new Array();
-  window.obstacles.foreach(function(coords,key){
+  window.obstacles.forEach(function(coords,key){
     window.spriteObstacle[key]=game.add.sprite(coords[0],coords[1],'obst');
   });
 }
 
 function update(){
-  game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
+  // game.physics.arcade.overlap(bullets, aliens, collisionHandler, null, this);
   if(wait<waitLimit){
     wait++;
   }else{
@@ -90,8 +92,8 @@ function updateUtil(){
     window.currentGenotypeIndex=1;
     //reset sums
     for(var i=0;i<window.agentTotal;i++){
-      window.sumA[i]=window.simulation.Player1[window.currentGeneration][i][0];
-      window.sumB[i]=window.simulation.Player2[window.currentGeneration][i][0];
+      window.sumA[i]=window.simulation.player1[window.currentGeneration][i][0];
+      window.sumB[i]=window.simulation.player2[window.currentGeneration][i][0];
     }
     //set x,y sprites to start
     for(var i=0;i<window.agentTotal;i++){
@@ -103,7 +105,7 @@ function updateUtil(){
   }
 }
 
-function calculate(var player,var a){
+function calculate(player, a){
   var agent;
   if(player==0){
     agent=window.simulation.player1[window.currentGeneration][a];
@@ -118,25 +120,25 @@ function calculate(var player,var a){
         sumA[a]=7;
       }
     }
-    bigSwitch(sumA[a]);
+    return bigSwitch(sumA[a]);
   }else{
     agent=window.simulation.player2[window.currentGeneration][a];
     if(agent[window.currentGenotypeIndex]==2){
       sumB[a]++;
-      if(sumA[a]>7){
-        sumA[a]=0;
+      if(sumB[a]>7){
+        sumB[a]=0;
       }
     }else if(agent[window.currentGenotypeIndex]==0){
       sumB[a]--;
-      if(sumA[a]<0){
-        sumA[a]=7;
+      if(sumB[a]<0){
+        sumB[a]=7;
       }
     }
   }
-    bigSwitch(sumB[a]);
+  return bigSwitch(sumB[a]);
 }
 
-function bigSwitch(var a){
+function bigSwitch(a){
   var toRet=[0,0];
   if(a==0){
     return toRet=[20,0];
@@ -158,5 +160,5 @@ function bigSwitch(var a){
 }
 
 function render(){
-  game.debug.text('Generation '+(currentgen+1), 32, 32);
+  game.debug.text('Generation '+(window.currentGeneration+1), 32, 32);
 }

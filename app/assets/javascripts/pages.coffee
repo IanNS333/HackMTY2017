@@ -18,3 +18,6 @@ $(document).on 'click', '#resubmit-button', ->
 $ ->
   $('.slider').slider()
   $('.slider').css({margin: '10px 15px'});
+  if $('#sim_res').length>0
+    window.j = $('#sim_res').html()
+    window.game = new Phaser.Game($("#video").width(), $("#video").height(), Phaser.AUTO, 'video', { preload: preload, create: create, update: update, render: render });

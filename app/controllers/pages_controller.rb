@@ -23,6 +23,7 @@ class PagesController < ApplicationController
         s.player2 = tmp.player2
         s.user_id = tmp.user_id
       end
+      #SubmitionsController.simulation_result = nil
       @player1 = Player.find(@submition[:player1])
       @player2 = Player.find(@submition[:player2])
       tmp = 0
