@@ -39,8 +39,11 @@ class SubmitionsController < ApplicationController
     render :new if !@player1.save
     @submition[:player1] = @player1[:user_id]
 
-    puts @submition.to_python_json
+    simulation_result = `echo '#{@submition.to_python_json}' | python3 #{Rails.root.join('python', 'GameIO.py')}`
 
+    p '-------------------'
+    p simulation_result
+    p '-------------------'
     respond_to do |format|
       if @submition.save
         format.html { head :ok }
