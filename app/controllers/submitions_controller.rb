@@ -1,5 +1,6 @@
 class SubmitionsController < ApplicationController
   before_action :set_submition, only: [:show, :edit, :update, :destroy]
+  cattr_accessor :simulation_result
 
   # GET /submitions
   # GET /submitions.json
@@ -37,13 +38,14 @@ class SubmitionsController < ApplicationController
                           flatAngle: params[:submition][:flatAngle],
                           user_id: params[:user_id])
     render :new if !@player1.save
-    @submition[:player1] = @player1[:user_id]
+    @submition[:player1] = @player1[:id]
 
-    @simulation_result = `echo '#{@submition.to_python_json}' | python3 #{Rails.root.join('python', 'GameIO.py')}`
+    @@simulation_result = `echo '#{@submition.to_python_json}' | python3 #{Rails.root.join('python', 'GameIO.py')}`
+    p @@simulation_result
 
     respond_to do |format|
       if @submition.save
-        format.html { head :ok }
+        format.html { redirect_to "/users/#{@player1[:user_id]}/ide/#{@submition[:id]}" }
         format.json { head :ok }
       else
         format.html { render :new }
