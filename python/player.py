@@ -1,15 +1,16 @@
 import random
 from arrow import Arrow
+from board import Board
 
 class Player:
 
-    def __init__(self, seed, amount, genotypeSize, breedFunction, selectionFunction, mutationFunction, game, weights):
+    def __init__(self, seed, amount, genotypeSize, breedFunction, selectionFunction, mutationFunction, board, weights):
         random.seed(seed)
         self.amount = amount
         self.arrows = []
         self.genotypeSize = genotypeSize
         self.weights = weights
-        self.game = game
+        self.board = board
         self.createArrows()
 
         self.breedFunction = breedFunction
@@ -18,10 +19,11 @@ class Player:
         self.breedArgs = []
         self.selectionArgs = []
         self.mutationArgs = []
+        self.win = False
         
     def createArrows(self):
         for i in range(self.amount):
-            self.arrows.append(Arrow(Arrow.randomGenotype(random,self.genotypeSize), self.game.board))
+            self.arrows.append(Arrow(Arrow.randomGenotype(self.genotypeSize), self.board))
 
     def setBreedArgs(self,args):
         self.breedArgs = args
@@ -35,9 +37,9 @@ class Player:
     #returns list of genotypes
     def createGeneration(self):
         genotypes = self.moveArrows()
-        selectedPairs = self.selectionFunction(self.arrows, self.selectionArgs)
-        breeded = self.breedFunction(selectedPairs, self.breedArgs)
-        nextGen = self.mutationFunction(breeded, random.randint,self.mutationArgs)
+        selectedPairs = self.selectionFunction(self.arrows,self.weights, self.selectionArgs)
+        breeded = self.breedFunction(selectedPairs, self.board, self.breedArgs)
+        nextGen = self.mutationFunction(breeded, self.board,self.mutationArgs)
         self.arrows = nextGen
         return genotypes
 
@@ -46,7 +48,11 @@ class Player:
         for a in self.arrows:
             generationGenotypes.append(a.getGenotype())
             a.move()
+            if(a.win):
+                self.win
         return generationGenotypes
+
+    
 
     @staticmethod
     def mutationRandom(breeded, board ,args):
@@ -62,22 +68,33 @@ class Player:
     def breedMultiPoint(selectedPairs ,board, args):
         n = args["points"] if "points" in args else 1
         breeds = []
+        points = []
+        result = []
         for i in selectedPairs:
-            point = random.randint(1, len(selectedPairs[0].genotype)-1)
-            breeds.append(Arrow(i[0].genotype[:point] + i[1].genotype[point:-1], board))
+            for j in range(n):
+                points.append(random.randint(1, len(i[0].genotype)-1))
+            points.sort()
+            last = 0
+            for j in range(n):
+                result += i[j%2].genotype[last:points[j]]
+                last = points[j]
+            result += i[(j+1)%2].genotype[last:]
+            breeds.append(Arrow(result, board))
         return breeds
     
     #returns pair of objects to be breed
     @staticmethod
-    def selectionTournamet(arrows, args):
-        sortedArrows = sorted(arrows,key=lambda arrow: arrow.fitness())[:args["amount"] if "amount" in args else 2]
+    def selectionTournamet(arrows, weights, args):
+        sortedArrows = sorted(arrows,key=lambda arrow: arrow.fitness(weights))[:args["amount"] if "amount" in args else 2]
         selectedPairs = []
         for i in range(len(arrows)):
-            selected.append([random.randint(0,len(sortedArrows)-1 ), random.randint(0,len(sortedArrows)-1 )])
+            selectedPairs.append([sortedArrows[random.randint(0,len(sortedArrows)-1 )],sortedArrows[random.randint(0,len(sortedArrows)-1 )]])
         return selectedPairs
 
     
 def main():
-
+    board = Board(5336)
+    player = Player(5336,10,30,Player.breedMultiPoint,Player.selectionTournamet,Player.mutationRandom,board,[0.2,0.3,0.5,0.4])
+    print("\n".join([str(i) for i in player.createGeneration()]))
+    
 main()
-
