@@ -11,30 +11,37 @@ class Arrow:
         self.board = board
         self.position = board.start
         self.win = False
+        self.positions = []
+        self.angleSum = 0
 
     #float (not normalized)
     def fitness(self, weights):
         res = 0
         res += weights[0]*self.euclideanFit(self.board.end)
+        res += weights[1]*self.pathLengthFit()
+        res += weights[2]*self.angleFit()
+        
         return res
 
     def move(self):
         alive = True
-        positions = []
         while(alive and self.timeAlive < len(self.genotype)):
-            positions.append(self.position)
+            self.positions.append(self.position)
             nextGen = self.genotype[self.timeAlive]
             nextDirection = self.direction + nextGen
             nextPosition = self.moveTo(nextDirection, self.position)
             if(nextDirection%2 == 1 and (self.board.at(self.moveTo(nextDirection-1, self.position)) == Tiles.Obstacle or self.board.at(self.moveTo(nextDirection+1, self.position)) == Tiles.Obstacle)):
                 alive = False
-                self.win = True
-            elif (self.board.at(nextPosition) == Tiles.Obstacle or self.board.at(nextPosition) == Tiles.Flag):
+            elif (self.board.at(nextPosition) == Tiles.Obstacle):
                 alive = False
+            elif (self.board.at(nextPosition) == Tiles.Flag):
+                self.win = True
+                alive = False
+            if(self.direction != nextDirection):
+                self.angleSum += 1
             self.direction = nextDirection
             self.position = nextPosition
             self.timeAlive+=1
-        print(positions)
 
     
     def moveTo(self,direction, position):
@@ -67,5 +74,15 @@ class Arrow:
         return genotype
 
     def euclideanFit(self,flag):
-        return 1/math.sqrt((flag[0] - self.position[0])**2 + (flag[1] - self.position[1])**2)
+        distance = 10*math.sqrt((flag[0] - self.position[0])**2 + (flag[1] - self.position[1])**2)
+        if(distance == 0):
+            self.win = True
+            return 2
+        return 1/distance
+
+    def pathLengthFit(self):
+        return (self.timeAlive -1)/(len(self.genotype)-1)
+
+    def angleFit(self):
+        return (self.angleSum)/(len(self.genotype))
 

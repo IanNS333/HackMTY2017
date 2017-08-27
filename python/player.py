@@ -38,34 +38,32 @@ class Player:
     def createGeneration(self):
         genotypes = self.moveArrows()
         selectedPairs = self.selectionFunction(self.arrows,self.weights, self.selectionArgs)
-        breeded = self.breedFunction(selectedPairs, self.board, self.breedArgs)
+        breeded = self.breedFunction(selectedPairs, self.board, self.breedArgs)[:len(self.arrows)]
         nextGen = self.mutationFunction(breeded, self.board,self.mutationArgs)
         self.arrows = nextGen
         return genotypes
 
     def moveArrows(self):
-        generationGenotypes = []
         for a in self.arrows:
-            generationGenotypes.append(a.genotype)
             a.move()
-            print("********************************************************")
             if(a.win):
-                self.win
-        return generationGenotypes
-
-    
+                self.win = True
+        best = sorted(self.arrows,key=lambda arrow: arrow.fitness(self.weights),reverse=True)[:10]
+        genotypeGeneration = []
+        for g in best:
+            genotypeGeneration.append(g.genotype)
+        return genotypeGeneration
 
     @staticmethod
     def mutationRandom(breeded, board ,args):
         mutated = []
         for a in breeded:   
-            a.genotype 
             for i in range(args["times"] if "times" in args else 1):
                 genIndex = random.randint(1,len(a.genotype) - 1)
                 newGen = random.randint(0,2)
                 nextGenotype = a.genotype
                 nextGenotype[genIndex] = newGen
-                mutated.append(Arrow(nextGenotype, board))
+            mutated.append(Arrow(nextGenotype, board))
         return mutated
         
 
@@ -75,25 +73,43 @@ class Player:
         breeds = []
         points = []
         for i in selectedPairs:
-            result = []
-            for j in range(n):
-                points.append(random.randint(1, len(i[0].genotype)-1))
+            result1 = []
+            result2 = []
+            points = random.sample(range(1,len(i[0].genotype)-1), n)
             points.sort()
             last = 0
             for j in range(n):
-                result += i[j%2].genotype[last:points[j]]
+                result1 += i[j%2].genotype[last:points[j]]
+                result2 += i[(j+1)%2].genotype[last:points[j]]
+                
                 last = points[j]
-            result += i[(j+1)%2].genotype[last:]
-            breeds.append(Arrow(result, board))
+            result1 += i[(n)%2].genotype[last:]
+            result2 += i[(n+1)%2].genotype[last:]
+            breeds.append(Arrow(result1, board))
+            breeds.append(Arrow(result2, board))
         return breeds
     
     #returns pair of objects to be breed
     @staticmethod
     def selectionTournament(arrows, weights, args):
-        sortedArrows = sorted(arrows,key=lambda arrow: arrow.fitness(weights))[:args["amount"] if "amount" in args else 2]
+        sortedArrows = sorted(arrows,key=lambda arrow: arrow.fitness(weights),reverse=True)[:args["amount"] if "amount" in args else 2]
         selectedPairs = []
-        for i in range(len(arrows)):
-            selectedPairs.append([sortedArrows[random.randint(0,len(sortedArrows)-1 )],sortedArrows[random.randint(0,len(sortedArrows)-1 )]])
+        for i in range(len(arrows) ):
+            posI = random.randint(0,len(sortedArrows)-1 )
+            posJ = random.randint(0,len(sortedArrows)-1 )
+            selectedPairs.append([sortedArrows[posI],sortedArrows[posJ]])
+
+        selectedPairs[0] = [sortedArrows[0],sortedArrows[0]]
+        selectedPairs[1] = [sortedArrows[1],sortedArrows[1]]
+        return selectedPairs
+
+    @staticmethod
+    def selectionRandom(arrows,weights,args):
+        selectedPairs = []
+        for i in range(len(arrows) ):
+            posI = random.randint(0,len(arrows)-1 )
+            posJ = random.randint(0,len(arrows)-1 )
+            selectedPairs.append([arrows[posI],arrows[posJ]])
         return selectedPairs
 
     
