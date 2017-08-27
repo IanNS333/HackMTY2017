@@ -1,0 +1,14 @@
+{
+    "worldSeed":1,
+    "playerSeed":2,
+    "breeding": 1,
+    "selection": "tournament",
+    "mutations": 0,
+    "fitness" : {
+        "distance": 0,
+        "pathLength" : 0,
+        "flagAngle": 0
+    },
+    "agents": 10,
+    "genotypeLength": 10
+}
