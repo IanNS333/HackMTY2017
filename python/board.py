@@ -59,8 +59,12 @@ class Board:
         self.board[startI][startJ] = Tiles.Start
 
 
-    def at(self, i, j):
-        return board[i][j]
+    def at(self, position):
+        i = position[0]
+        j = position[1]
+        if(i < 0 or i >= self.iMax or j < 0 or j >= self.jMax):
+            return Tiles.Obstacle
+        return self.board[i][j]
 
     def debug_print(self):
         trans = {
@@ -78,8 +82,8 @@ class Board:
         print (self.start)
         print (self.end)
 
-board = Board(int(input()))
-board.toString()
+#board = Board(int(input()))
+#board.toString()
 # board.debug_print()
 
 
