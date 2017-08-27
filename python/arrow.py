@@ -11,6 +11,7 @@ class Arrow:
         self.board = board
         self.position = board.start
         self.win = False
+        self.positions = []
 
     #float (not normalized)
     def fitness(self, weights):
@@ -20,21 +21,24 @@ class Arrow:
 
     def move(self):
         alive = True
-        positions = []
+        actual = 5
         while(alive and self.timeAlive < len(self.genotype)):
-            positions.append(self.position)
+            self.positions.append(self.position)
+            self.board.board[self.position[0]][self.position[1]] = actual
+            actual += 1
             nextGen = self.genotype[self.timeAlive]
             nextDirection = self.direction + nextGen
             nextPosition = self.moveTo(nextDirection, self.position)
             if(nextDirection%2 == 1 and (self.board.at(self.moveTo(nextDirection-1, self.position)) == Tiles.Obstacle or self.board.at(self.moveTo(nextDirection+1, self.position)) == Tiles.Obstacle)):
                 alive = False
+            elif (self.board.at(nextPosition) == Tiles.Obstacle):
+                alive = False
+            elif (self.board.at(nextPosition) == Tiles.Flag):
                 self.win = True
-            elif (self.board.at(nextPosition) == Tiles.Obstacle or self.board.at(nextPosition) == Tiles.Flag):
                 alive = False
             self.direction = nextDirection
             self.position = nextPosition
             self.timeAlive+=1
-        print(positions)
 
     
     def moveTo(self,direction, position):
@@ -67,5 +71,9 @@ class Arrow:
         return genotype
 
     def euclideanFit(self,flag):
-        return 1/math.sqrt((flag[0] - self.position[0])**2 + (flag[1] - self.position[1])**2)
+        distance = 10*math.sqrt((flag[0] - self.position[0])**2 + (flag[1] - self.position[1])**2)
+        if(distance == 0):
+            self.win = True
+            return 2
+        return 1/distance
 

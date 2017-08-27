@@ -40,6 +40,9 @@ class Game:
         self.players[0].setMutationArgs({"times" : args["player1"]["mutations"]})
         self.players[1].setMutationArgs({"times" : args["player2"]["mutations"]})
 
+        self.players[0].setSelectionArgs({"amount" : args["agents"]//2})
+        self.players[1].setSelectionArgs({"amount" : args["agents"]//2})
+
         #TODO Selection args
         
         self.simulation = [ [], [] ]
@@ -47,8 +50,11 @@ class Game:
 
     def run(self):
         winner = False
-        for i in range(3):
+        for i in range(200):
             for j in range(2):
                 winner = self.players[j].win
                 self.simulation[j].append(self.players[j].createGeneration())
-            if winner: break
+            if winner:
+                print("gano")
+                print(i)
+                break
