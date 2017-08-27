@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Worldseed:</strong>
+  <%= @submition.worldSeed %>
+</p>
+
+<p>
+  <strong>Playerseed:</strong>
+  <%= @submition.playerSeed %>
+</p>
+
+<p>
+  <strong>Agents:</strong>
+  <%= @submition.agents %>
+</p>
+
+<p>
+  <strong>Genotypelength:</strong>
+  <%= @submition.genotypeLength %>
+</p>
+
+<p>
+  <strong>Player1:</strong>
+  <%= @submition.player1 %>
+</p>
+
+<p>
+  <strong>Player2:</strong>
+  <%= @submition.player2 %>
+</p>
+
+<%= link_to 'Edit', edit_submition_path(@submition) %> |
+<%= link_to 'Back', submitions_path %>

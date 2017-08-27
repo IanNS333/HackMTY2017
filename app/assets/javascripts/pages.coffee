@@ -13,3 +13,4 @@ $(document).on 'click', '#submit-button', ->
 $(document).on 'click', '#resubmit-button', ->
   x = true
 
+$ ->
