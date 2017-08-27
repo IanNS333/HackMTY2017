@@ -48,6 +48,7 @@ class Player:
         for a in self.arrows:
             generationGenotypes.append(a.getGenotype())
             a.move()
+            print("********************************************************")
             if(a.win):
                 self.win
         return generationGenotypes
@@ -93,7 +94,8 @@ class Player:
 
     
 def main():
-    board = Board(9999999999999999999999999)
+    board = Board(5336)
+    board.toString()
     player = Player(5336,10,30,Player.breedMultiPoint,Player.selectionTournamet,Player.mutationRandom,board,[0.2,0.3,0.5,0.4])
     print("\n".join([str(i) for i in player.createGeneration()]))
     

@@ -28,7 +28,9 @@ class Arrow:
 
     def move(self):
         alive = True
+        positions = []
         while(alive and self.timeAlive < len(self.genotype)):
+            positions.append(self.position)
             nextGen = self.genotype[self.timeAlive]
             nextDirection = self.direction + nextGen
             nextPosition = self.moveTo(nextDirection, self.position)
@@ -40,6 +42,7 @@ class Arrow:
             self.direction = nextDirection
             self.position = nextPosition
             self.timeAlive+=1
+        print(positions)
 
     
     def moveTo(self,direction, position):
