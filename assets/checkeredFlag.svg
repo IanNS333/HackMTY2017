@@ -59,7 +59,11 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="8"
+<<<<<<< HEAD
+     inkscape:cx="-25.684232"
+=======
      inkscape:cx="11.190768"
+>>>>>>> 8be268c8274a8aae5dc5d6de49ef34a5d0607a0e
      inkscape:cy="-10.044427"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -97,7 +101,11 @@
        id="path3680"
        cx="31.422112"
        cy="66.762505"
+<<<<<<< HEAD
+       style="opacity:1;fill:url(#pattern6493);fill-opacity:1;stroke:#000000;stroke-width:0.30109583;stroke-miterlimit:4;stroke-dasharray:none"
+=======
        style="opacity:1;fill:url(#pattern6493);fill-opacity:1;stroke:#000000;stroke-width:0.30146629;stroke-miterlimit:4;stroke-dasharray:none"
+>>>>>>> 8be268c8274a8aae5dc5d6de49ef34a5d0607a0e
        inkscape:export-xdpi="96"
        inkscape:export-ydpi="96"
        r="2.4951003" />
