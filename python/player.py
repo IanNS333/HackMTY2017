@@ -96,10 +96,10 @@ class Player:
         return selectedPairs
 
     
-def test():
-    board = Board(5336)
-    a = Arrow([6,2,1,0,2,1,2,0,1,2],board)
-    b = Arrow([4,2,1,0,1,1,2,1,0,1], board)
-    print([len(a.genotype) for a in Player.breedMultiPoint([[a,b],[b,a],[a,a],[b,b],[a,a]],board,{})])
+# def test():
+#     board = Board(5336)
+#     a = Arrow([6,2,1,0,2,1,2,0,1,2],board)
+#     b = Arrow([4,2,1,0,1,1,2,1,0,1], board)
+#     print([len(a.genotype) for a in Player.breedMultiPoint([[a,b],[b,a],[a,a],[b,b],[a,a]],board,{})])
     
-test()
+# test()
