@@ -7,10 +7,12 @@ class Tiles:
 class Board:
     def __init__(self, sd):
         self.board = []
+        self.seed = sd
+        
         self.obstacles = []
         self.start = []
         self.end = []
-        self.seed = sd
+        
 
         random.seed(self.seed)
 
