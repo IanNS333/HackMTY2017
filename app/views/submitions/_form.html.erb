@@ -23,27 +23,39 @@
 
   <div class="field">
     <%= form.label :agents %>
-    <%= form.text_field :agents, id: :submition_agents %>
+    <%= slider @submition[:agents], 1, 50, 1, :submition_agents, 'submition[agents]'%>
   </div>
 
   <div class="field">
     <%= form.label :genotypeLength %>
-    <%= form.text_field :genotypeLength, id: :submition_genotypeLength %>
+    <%= slider @submition[:genotypeLength], 80, 200, 1, :submition_genotypeLength, 'submition[genotypeLength]'%>
   </div>
 
   <div class="sub_section">
-    <%= form.label :breeding %>
-    <%= form.text_field :breeding, id: :submition_breeding %>
-    <%= form.label :selection %>
-    <%= form.text_field :selection, id: :submition_selection %>
-    <%= form.label :mutationsPerGenotype %>
-    <%= form.text_field :mutationsPerGenotype, id: :submition_mutationsPerGenotype %>
-    <%= form.label :distance %>
-    <%= form.text_field :distance, id: :submition_distance %>
-    <%= form.label :pathLength %>
-    <%= form.text_field :pathLength, id: :submition_pathLength %>
-    <%= form.label :flatAngle %>
-    <%= form.text_field :flatAngle, id: :submition_flatAngle %>
+    <div class="field">
+      <%= form.label :breeding %>
+      <%= slider @submition[:breeding], 1, 50, 1, :submition_breeding, 'submition[breeding]'%>
+    </div>
+    <div class="field">
+      <%= form.label :selection %>
+      <%= slider @submition[:selection], 1, 50, 1, :submition_selection, 'submition[selection]'%>
+    </div>
+    <div class="field">
+      <%= form.label :mutationsPerGenotype %>
+      <%= slider @submition[:mutationsPerGenotype], 1, 50, 1, :submition_mutationsPerGenotype, 'submition[mutationsPerGenotype]'%>
+    </div>
+    <div class="field">
+      <%= form.label :distance %>
+      <%= slider @submition[:distance], 1, 50, 1, :submition_distance, 'submition[distance]'%>
+    </div>
+    <div class="field">
+      <%= form.label :pathLength %>
+      <%= slider @submition[:pathLength], 1, 50, 1, :submition_pathLength, 'submition[pathLength]'%>
+    </div>
+    <div class="field">
+      <%= form.label :flatAngle %>
+      <%= slider @submition[:flatAngle], 1, 50, 1, :submition_flatAngle, 'submition[flatAngle]'%>
+    </div>
   </div>
 
   <div class="field">

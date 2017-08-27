@@ -8,10 +8,13 @@ $(document).on 'click', '#stop-button', ->
   x = true
 
 $(document).on 'click', '#submit-button', ->
-  x = true
+  $('#submition_worldSeed').val(parseInt(Math.random()*1000000))
+  $('#submition_playerSeed').val(parseInt(Math.random()*1000000))
+  $('form').trigger('submit.rails')
 
 $(document).on 'click', '#resubmit-button', ->
-  x = true
+  $('form').trigger('submit.rails')
 
 $ ->
-  x = true
+  $('.slider').slider()
+  $('.slider').css({margin: '10px 15px'});
