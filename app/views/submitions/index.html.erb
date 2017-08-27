@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Submitions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Worldseed</th>
+      <th>Playerseed</th>
+      <th>Agents</th>
+      <th>Genotypelength</th>
+      <th>Player1</th>
+      <th>Player2</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @submitions.each do |submition| %>
+      <tr>
+        <td><%= submition.worldSeed %></td>
+        <td><%= submition.playerSeed %></td>
+        <td><%= submition.agents %></td>
+        <td><%= submition.genotypeLength %></td>
+        <td><%= submition.player1 %></td>
+        <td><%= submition.player2 %></td>
+        <td><%= link_to 'Show', submition %></td>
+        <td><%= link_to 'Edit', edit_submition_path(submition) %></td>
+        <td><%= link_to 'Destroy', submition, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Submition', new_submition_path %>
