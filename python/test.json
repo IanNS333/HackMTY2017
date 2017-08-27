@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
     "worldSeed":"absc",
     "playerSeed":"bjsh",
     "param1":{
@@ -11,4 +12,18 @@
     },
     "agents":10,
     "genotypeLength":1000
+=======
+    "worldSeed":1,
+    "playerSeed":2,
+    "breeding": 1,
+    "selection": "tournament",
+    "mutations": 0,
+    "fitness" : {
+        "distance": 0,
+        "pathLength" : 0,
+        "flagAngle": 0
+    },
+    "agents": 10,
+    "genotypeLength": 10
+>>>>>>> 33d53e9406274515525ac3dacd5053639b86d706
 }
